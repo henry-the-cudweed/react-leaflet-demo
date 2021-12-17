@@ -1,54 +1,92 @@
-import React from "react";
+import React, {useState} from "react";
 import { Map, Marker, Popup, TileLayer } from "react-leaflet";
 import { Icon } from "leaflet";
-import * as parkData from "./data/skateboard-parks.json";
-import "./app.css";
+import plantData from "./data/calflora-out.json";
+/*import * as parkData from "./data/skateboard-parks.json";*/
+import "./App.css";
+import loader from "sass-loader";
 
+console.log(plantData)
 export const icon = new Icon({
-  iconUrl: "/skateboarding.svg",
+  iconUrl: "/plant.png",
   iconSize: [25, 25]
 });
 
+
+
 export default function App() {
-  const [activePark, setActivePark] = React.useState(null);
+  
+
+
+   /*const clickedPlant = plantData.pop*/
+
+  /*function handleClick(clickedPlant) {
+     clickedPlant = this.setState(e.target.value)
+  }*/
+  
+
+
+const [activePlant, setActivePlant] = React.useState(
+  {
+      "Number of Plants": "20",
+      "Date / Time": "2021-11-17 13:08:38.0",
+      "Phenology": "Flowering",
+      "Common Name": "French broom",
+      "Percent Cover": "1 %",
+      "Observer": "Henry Inman",
+      "Taxon": "Genista monspessulana",
+      "Latitude": "37.933429",
+      "ID": "mg153983",
+      "Longitude": "-122.68728"
+  }
+  ); 
+  let activePlantArray = ["Number of Plants", "Date / Time", "Phenology", "Common Name", "Percent Cover", "Observer", "Taxon", "Latitude", "ID", "Longitude"]
+  let handleClickPlantVar = ["Number of Plants", "Date / Time", "Phenology", "Common Name", "Percent Cover", "Observer", "Taxon", "Latitude", "ID", "Longitude"]
+  const filteredPlants = plantData.filter(plant => plant.Taxon === "Genista monspessulana")
+  const handleClick = (event) => { 
+    handleClickPlantVar = event.target.values;
+    activePlantArray = Object.values(handleClickPlantVar);
+    setActivePlant(activePlantArray);
+  }
+  
+
+
 
   return (
-    <Map center={[45.4, -75.7]} zoom={12}>
+     
+    <div style={{ display: "grid",  gridTemplateColumns: "repeat(3, 1fr)", gridGap: 20 }}>
+    <div>
+    <Map center={[37.93, -122.68]} zoom={12}>
       <TileLayer
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
       />
-
-      {parkData.features.map(park => (
+      {filteredPlants.map(plant => (
         <Marker
-          key={park.properties.PARK_ID}
-          position={[
-            park.geometry.coordinates[1],
-            park.geometry.coordinates[0]
-          ]}
-          onClick={() => {
-            setActivePark(park);
-          }}
-          icon={icon}
-        />
-      ))}
+         key={plant.ID}
+         position={[plant.Latitude, plant.Longitude]}
+         onClick={handleClick}
+         icon={icon}
+         >
+       
+       <Popup position={[plant.Latitude, plant.Longitude]}>
+             <div>
+               
+                    <ul><h3>Species:</h3> {activePlantArray}</ul>
+               
+             </div>
 
-      {activePark && (
-        <Popup
-          position={[
-            activePark.geometry.coordinates[1],
-            activePark.geometry.coordinates[0]
-          ]}
-          onClose={() => {
-            setActivePark(null);
-          }}
-        >
-          <div>
-            <h2>{activePark.properties.NAME}</h2>
-            <p>{activePark.properties.DESCRIPTIO}</p>
-          </div>
-        </Popup>
-      )}
-    </Map>
-  );
-}
+          </Popup>
+        </Marker>
+      ))}
+     </Map>
+     </div>
+     <div>
+     
+     <div>
+     <ul><h3>Species:</h3> {activePlantArray}</ul>
+                    </div>
+           
+     </div>
+     </div>
+  )}
