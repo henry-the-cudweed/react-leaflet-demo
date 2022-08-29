@@ -4,7 +4,7 @@ import { Icon } from "leaflet";
 import plantData from "./data/calflora-out.json";
 /*import * as parkData from "./data/skateboard-parks.json";*/
 import "./App.css";
-import loader from "sass-loader";
+/*import loader from "sass-loader";*/
 
 console.log(plantData)
 export const icon = new Icon({
@@ -44,9 +44,10 @@ const [activePlant, setActivePlant] = React.useState(
   let handleClickPlantVar = ["Number of Plants", "Date / Time", "Phenology", "Common Name", "Percent Cover", "Observer", "Taxon", "Latitude", "ID", "Longitude"]
   const filteredPlants = plantData.filter(plant => plant.Taxon === "Genista monspessulana")
   const handleClick = (event) => { 
-    handleClickPlantVar = event.target.values;
-    activePlantArray = Object.values(handleClickPlantVar);
+    handleClickPlantVar = event.target.value;
+    /*activePlantArray = Object.values(handleClickPlantVar);*/
     setActivePlant(activePlantArray);
+  
   }
   
 
