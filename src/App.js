@@ -73,7 +73,8 @@ const [activePlant, setActivePlant] = React.useState(
        <Popup position={[plant.Latitude, plant.Longitude]}>
              <div>
                
-                    <ul><h3>Species:</h3> {activePlantArray}</ul>
+                    <ul><h3>Specie2s:</h3> 
+                    {plant.ID}{activePlantArray}</ul>
                
              </div>
 
@@ -85,7 +86,9 @@ const [activePlant, setActivePlant] = React.useState(
      <div>
      
      <div>
-     <ul><h3>Species:</h3> {activePlantArray}</ul>
+     <ul><h3>Spe3cies:</h3> 
+   
+     {activePlantArray}</ul>
                     </div>
            
      </div>
